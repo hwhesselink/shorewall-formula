@@ -48,21 +48,24 @@ shorewall:
       comment: Reject all other connections
 
   rules:
-    - action: SSH(ACCEPT)
-      source: all
-      dest: all
-      comment: Allow SSH connections
-      ipv: 4                          # Rule for ipv4
-    - action: Ping(ACCEPT)
-      source: all
-      dest: $FW
-      comment: Allow Pings
-      ipv: 6                          # Rule for ipv6
-    - action: SaltMaster(ACCEPT)
-      source: all
-      dest: $FW
-      comment: Allow connections to saltmaster
-      # No ipv is given here          # Rule for ipv4 and ipv6
+    # available sections 'ALL', 'ESTABLISHED', 'RELATED', 'NEW' for all versions and
+    # additionally 'INVALID', 'UNTRACKED' for >= 4.6
+    NEW:
+      - action: SSH(ACCEPT)
+        source: all
+        dest: all
+        comment: Allow SSH connections
+        ipv: 4                          # Rule for ipv4
+      - action: Ping(ACCEPT)
+        source: all
+        dest: $FW
+        comment: Allow Pings
+        ipv: 6                          # Rule for ipv6
+      - action: SaltMaster(ACCEPT)
+        source: all
+        dest: $FW
+        comment: Allow connections to saltmaster
+        # No ipv is given here          # Rule for ipv4 and ipv6
 
   masq:
     - interface: eth0
